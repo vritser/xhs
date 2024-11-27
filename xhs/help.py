@@ -125,12 +125,17 @@ video_cdns = [
 ]
 
 
-def get_video_url_from_note(note) -> str:
+def _get_video_url_from_note(note) -> str:
     if not note.get("video"):
         return ""
     origin_video_key = note['video']['consumer']['origin_video_key']
     return f"{random.choice(video_cdns)}/{origin_video_key}"
 
+def get_video_url_from_note(note) -> str:
+    if not note.get("video"):
+        return ""
+    videos = note['video']['media']['stream']['h264']
+    return random.choice(random.choice(videos)['backup_urls'])
 
 def get_video_urls_from_note(note) -> list:
     if not note.get("video"):
