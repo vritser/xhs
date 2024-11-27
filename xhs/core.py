@@ -436,6 +436,8 @@ class XhsClient:
             "search_id": get_search_id(),
             "sort": sort.value,
             "note_type": note_type.value,
+            "ext_flags": [],
+            "image_formats": ["jpg", "webp", "avif"],
         }
         return self.post(uri, data)
 
@@ -450,7 +452,13 @@ class XhsClient:
         :rtype: dict
         """
         uri = "/api/sns/web/v1/user_posted"
-        params = {"num": 30, "cursor": cursor, "user_id": user_id, "image_scenes": "FD_WM_WEBP"}
+        params = {
+            "num": 30,
+            "cursor": cursor,
+            "user_id": user_id,
+            "xsec_source": "pc_note",
+            "image_formats": "jpg,webp,avif"
+        }
         return self.get(uri, params)
 
     def get_user_all_notes(self, user_id: str, crawl_interval: int = 1):
